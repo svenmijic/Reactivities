@@ -26,7 +26,6 @@ namespace Application.Activities
 
             public async Task<Activity> Handle(Query request, CancellationToken cancellationToken)
             {
-                throw new Exception("Computer says no, lol");
                 var activity = await context.Activities.FindAsync(request.Id);
                 if (activity == null) throw new RestException(HttpStatusCode.NotFound, new { activity = "Not found" });
                 return activity;
