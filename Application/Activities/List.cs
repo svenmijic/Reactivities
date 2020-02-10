@@ -4,25 +4,28 @@ using System.Threading.Tasks;
 using System.Threading;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace Application.Activities
 {
     public class List
     {
-        public class Query : IRequest<List<Domain.Activity>> { }
+        public class Query : IRequest<List<ActivityDto>> { }
 
-        public class Handler : IRequestHandler<Query, List<Domain.Activity>>
+        public class Handler : IRequestHandler<Query, List<ActivityDto>>
         {
             private readonly DataContext context;
-            public Handler(DataContext context)
+            private readonly IMapper mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
+                this.mapper = mapper;
                 this.context = context;
             }
 
-            public async Task<List<Domain.Activity>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var activities = await context.Activities.ToListAsync();
-                return activities;
+                return mapper.Map<List<Domain.Activity>, List<ActivityDto>>(activities);
             }
         }
     }

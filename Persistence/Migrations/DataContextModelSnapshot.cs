@@ -112,6 +112,27 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Domain.UserActivity", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ActivityId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateJoined")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsHost")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AppUserId", "ActivityId");
+
+                    b.HasIndex("ActivityId");
+
+                    b.ToTable("UserActivities");
+                });
+
             modelBuilder.Entity("Domain.Value", b =>
                 {
                     b.Property<int>("Id")
@@ -218,10 +239,12 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("TEXT");
@@ -258,10 +281,12 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
@@ -269,6 +294,21 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Domain.UserActivity", b =>
+                {
+                    b.HasOne("Domain.Activity", "Activity")
+                        .WithMany("UserActivities")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("UserActivities")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
