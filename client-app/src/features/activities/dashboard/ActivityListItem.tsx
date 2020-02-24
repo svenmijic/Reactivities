@@ -7,6 +7,7 @@ import ActivityListItemAttendees from "./ActivityListItemAttendees";
 
 const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
   const host = activity.userActivities.filter(x => x.isHost)[0];
+  console.log(host);
   return (
     <Segment.Group>
       <Segment>
@@ -24,7 +25,10 @@ const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
               </Item.Header>
               <Item.Description>
                 Hosted by
-                <Link to={`/profile/${host.username}`}> {host.displayName}</Link>
+                <Link to={`/profile/${host.username}`}>
+                  {" "}
+                  {host.displayName}
+                </Link>
               </Item.Description>
               {activity.isHost && (
                 <Item.Description>

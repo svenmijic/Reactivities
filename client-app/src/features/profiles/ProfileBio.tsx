@@ -1,19 +1,11 @@
 import React, { useContext, useState } from "react";
-import {
-  Tab,
-  Header,
-  Segment,
-  Divider,
-  Container,
-  Grid,
-  Button
-} from "semantic-ui-react";
+import { Tab, Header, Grid, Button } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import ProfileBioUpdateForm from "./ProfileBioUpdateForm";
 
 const ProfileBio = () => {
   const rootStore = useContext(RootStoreContext);
-  const { profile, isCurrentUser, updateProfile } = rootStore.profileStore;
+  const { profile, isCurrentUser } = rootStore.profileStore;
   const [updateBioMode, setUpdateBioMode] = useState(false);
 
   return (
@@ -34,14 +26,14 @@ const ProfileBio = () => {
             />
           )}
         </Grid.Column>
+        <Grid.Column width={16}>
+          {updateBioMode ? (
+            <ProfileBioUpdateForm setUpdateBioMode={setUpdateBioMode} />
+          ) : (
+            <p>{profile!.bio}</p>
+          )}
+        </Grid.Column>
       </Grid>
-      <Grid.Column width={16}>
-        {updateBioMode ? (
-          <ProfileBioUpdateForm setUpdateBioMode={setUpdateBioMode} />
-        ) : (
-          <p>{profile!.bio}</p>
-        )}
-      </Grid.Column>
     </Tab.Pane>
   );
 };
