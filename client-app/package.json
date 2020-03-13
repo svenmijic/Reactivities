@@ -25,6 +25,7 @@
     "react-dom": "^16.12.0",
     "react-dropzone": "^10.2.1",
     "react-final-form": "^6.3.5",
+    "react-infinite-scroller": "^1.2.4",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "react-toastify": "^5.5.0",
@@ -55,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-infinite-scroller": "^1.2.1"
   }
 }
